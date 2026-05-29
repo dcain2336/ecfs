@@ -8,7 +8,7 @@ from ecfs.core.engine import ECFSEngine
 from ecfs.plugins.null_transport import NullTransport
 from ecfs.plugins.base import TransportStatus
 from ecfs.relay.client import RelayClient
-from ecfs.plugins.relay_server import RelayServer
+from ecfs.relay.server import RelayServer
 
 
 @pytest.mark.asyncio
@@ -90,26 +90,44 @@ async def test_engine_plugin_failure_handling():
 
 @pytest.mark.asyncio
 async def test_relay_server_client_roundtrip():
-    """Start a relay server, connect client, send and receive data."""
-    server = RelayServer(host="127.0.0.1", port=0)
+    """Start an HTTP relay server, connect client, send and receive fragments."""
+    import socket
+    sock = socket.socket()
+    sock.bind(("", 0))
+    port = sock.getsockname()[1]
+    sock.close()
+
+    server = RelayServer(host="localhost", port=port)
     await server.start()
-    port = server._server.sockets[0].getsockname()[1]
+    await server.wait_until_ready()
 
-    client = RelayClient("127.0.0.1", port)
-    connected = await client.connect()
-    assert connected is True
+    try:
+        # Register two nodes
+        sender = RelayClient(
+            relay_url=f"http://localhost:{port}",
+            node_id="aabb112233445566",
+            name="sender",
+        )
+        receiver = RelayClient(
+            relay_url=f"http://localhost:{port}",
+            node_id="778899aabbccdd",
+            name="receiver",
+        )
+        await sender.connect()
+        connected = await receiver.connect()
+        assert connected is True
 
-    # Send data from client to server
-    payload = b"relay roundtrip data"
-    sent = await client.send(payload)
-    assert sent is True
+        # Sender broadcasts a fragment
+        payload = b"relay roundtrip data"
+        sent = await sender.send_fragment(payload)
+        assert sent is True
 
-    # Give server time to process
-    await asyncio.sleep(0.1)
+        # Receiver gets it (sender is excluded from own broadcast)
+        frags = await receiver.poll()
+        assert len(frags) == 1
+        assert frags[0] == payload
 
-    # Server receives the data
-    received = await server.receive()
-    assert received == payload
-
-    await client.close()
-    await server.stop()
+        await sender.disconnect()
+        await receiver.disconnect()
+    finally:
+        await server.stop()
