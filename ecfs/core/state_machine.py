@@ -130,7 +130,7 @@ class StateMachine:
         # NORMAL state
         if ratio < 0.25:
             self.transition(State.EMERGENCY)
-        elif ratio < 0.50:
+        elif ratio <= 0.50:
             self.transition(State.DEGRADED)
 
         return self._state
