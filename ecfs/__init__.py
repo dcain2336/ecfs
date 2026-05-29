@@ -8,5 +8,6 @@ __version__ = "0.5.0"
 
 from ecfs.core.engine import ECFSEngine
 from ecfs.relay.client import RelayClient
+from ecfs.discovery.mesh import MeshNode
 
-__all__ = ["ECFSEngine", "RelayClient"]
+__all__ = ["ECFSEngine", "RelayClient", "MeshNode"]
