@@ -14,6 +14,9 @@ from ecfs.plugins.dns_transport import DNSTunnelTransport
 from ecfs.plugins.relay_server import RelayServer
 from ecfs.plugins.lora_transport import LoRaTransport, MockSerial
 from ecfs.plugins.ble_transport import BLETransport, MockBLE
+from ecfs.plugins.ultrasonic_transport import UltrasonicAudioTransport, MockAudio
+from ecfs.plugins.rfid_transport import RFIDTransport, MockRFID
+from ecfs.plugins.stego_transport import SteganographicHTTP
 
 __all__ = [
     "TransportPlugin",
@@ -30,4 +33,9 @@ __all__ = [
     "MockSerial",
     "BLETransport",
     "MockBLE",
+    "UltrasonicAudioTransport",
+    "MockAudio",
+    "RFIDTransport",
+    "MockRFID",
+    "SteganographicHTTP",
 ]

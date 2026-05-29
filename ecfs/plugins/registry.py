@@ -32,6 +32,10 @@ class PluginRegistry:
     def get(self, name: str) -> Optional[TransportPlugin]:
         return self._plugins.get(name)
 
+    def get_all(self) -> List[TransportPlugin]:
+        """Return all registered plugins."""
+        return list(self._plugins.values())
+
     @property
     def plugin_names(self) -> List[str]:
         return list(self._plugins.keys())
