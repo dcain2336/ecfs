@@ -12,6 +12,8 @@ from ecfs.plugins.null_transport import NullTransport
 from ecfs.plugins.internet_transport import InternetTransport
 from ecfs.plugins.dns_transport import DNSTunnelTransport
 from ecfs.plugins.relay_server import RelayServer
+from ecfs.plugins.lora_transport import LoRaTransport, MockSerial
+from ecfs.plugins.ble_transport import BLETransport, MockBLE
 
 __all__ = [
     "TransportPlugin",
@@ -24,4 +26,8 @@ __all__ = [
     "InternetTransport",
     "DNSTunnelTransport",
     "RelayServer",
+    "LoRaTransport",
+    "MockSerial",
+    "BLETransport",
+    "MockBLE",
 ]
