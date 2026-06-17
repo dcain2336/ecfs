@@ -1,14 +1,48 @@
 __pycache__/
-*.pyc
-*.egg-info/
-dist/
+*.py[cod]
+*$py.class
+*.so
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
 .eggs/
-.coverage
-coverage.xml
-.mypy_cache/
-.ruff_cache/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
 .pytest_cache/
+.coverage
+htmlcov/
+
+# ECFS Lite
+.ecfs/
 *.db
-.env
-.venv/
+config.json
+admin_key.txt
+
+# OS
+.DS_Store
+Thumbs.db
