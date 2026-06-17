@@ -9,4 +9,4 @@ RUN python3 -m pip install -r requirements.txt || true
 ENV PYTHONUNBUFFERED=1
 ENV PORT=7700
 
-CMD ["python", "-m", "ecfs.ecfs-lite"]
+CMD ["python", "ecfs-lite.py"]
